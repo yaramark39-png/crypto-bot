@@ -416,7 +416,7 @@ async def market_overview(message: Message):
         data = requests.get(url).json()
 
         price = float(data.get("lastPrice", 0))
-        change = float(data["priceChangePercent"])
+        change = float(data.get("priceChangePercent", 0))
 
         if change >= 0:
             emoji = "🟢"
