@@ -47,7 +47,7 @@ async def signal_handler(message: Message):
 
     data = requests.get(url).json()
 
-    price_change = float(data["priceChangePercent"])
+    price_change = float(data.get("priceChangePercent", 0))
     current_price = data["lastPrice"]
 
     if price_change > 0:
@@ -207,7 +207,7 @@ async def coin_signal(message: Message, symbol: str, name: str):
 
     data = requests.get(url).json()
 
-    price_change = float(data["priceChangePercent"])
+    price_change = float(data.get("priceChangePercent", 0))
     current_price = data["lastPrice"]
 
     if price_change > 0:
