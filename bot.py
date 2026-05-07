@@ -253,7 +253,7 @@ async def market_signal(message: Message):
         url = f"https://api.binance.com/api/v3/ticker/24hr?symbol={coin}USDT"
         data = requests.get(url).json()
 
-        price = data["lastPrice"]
+        price = data.get("lastPrice", "Нету данных")
         change = float(data["priceChangePercent"])
 
         if change > 0:
