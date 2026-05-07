@@ -415,7 +415,7 @@ async def market_overview(message: Message):
 
         data = requests.get(url).json()
 
-        price = float(data["lastPrice"])
+        price = float(data.get("lastPrice", 0))
         change = float(data["priceChangePercent"])
 
         if change >= 0:
