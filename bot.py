@@ -251,7 +251,8 @@ async def market_signal(message: Message):
 
     for coin in coins:
         url = f"https://api.binance.com/api/v3/ticker/24hr?symbol={coin}USDT"
-        data = requests.get(url).json()
+        headers = {"User-Agent": "Mozilla/5.0"}
+        data = requests.get(url, headers=headers).json()
         if "lastPrice" not in data:
             text += f"\n❌ {coin}: нет данных от Binance\n"
             continue
