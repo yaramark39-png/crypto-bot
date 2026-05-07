@@ -246,6 +246,47 @@ async def xrp_signal(message: Message):
 
 @dp.message(Command("market"))
 async def market_signal(message: Message):
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true"
+    data = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}).json()
+
+    coins = {
+        "BTC": "bitcoin",
+        "ETH": "ethereum",
+        "SOL": "solana",
+        "XRP": "ripple"
+    }
+
+    text = "📊 ОБЗОР РЫНКА\n\n"
+
+    for symbol, coin_id in coins.items():
+        item = data.get(coin_id)
+
+        if not item:
+            text += f"❌ {symbol}: нет данных\n\n"
+            continue
+
+        price = round(item.get("usd", 0), 4)
+        change = round(item.get("usd_24h_change", 0), 3)
+
+        if change > 0:
+            trend = "BULLISH 🟢"
+            signal = "BUY 📈"
+        else:
+            trend = "BEARISH 🔴"
+            signal = "SELL 📉"
+
+        text += f"""
+🚀 {symbol}
+
+💰 Цена: ${price}
+📊 24ч: {change}%
+📈 Тренд: {trend}
+🔥 Сигнал: {signal}
+
+"""
+
+    await bot.send_message(CHANNEL_ID, text)
+    await message.answer(text)
     coins = ["BTC", "ETH", "SOL", "XRP"]
     text = "📊 ОБЗОР РЫНКА\n\n"
 
