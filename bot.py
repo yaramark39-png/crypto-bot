@@ -287,7 +287,6 @@ async def market_signal(message: Message):
 
     await bot.send_message(CHANNEL_ID, text)
     await message.answer(text)
-    coins = ["BTC", "ETH", "SOL", "XRP"]
 
 @dp.message(Command("settings"))
 async def settings_handler(message: Message):
