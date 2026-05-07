@@ -288,38 +288,6 @@ async def market_signal(message: Message):
     await bot.send_message(CHANNEL_ID, text)
     await message.answer(text)
     coins = ["BTC", "ETH", "SOL", "XRP"]
-    text = "📊 ОБЗОР РЫНКА\n\n"
-
-    for coin in coins:
-        url = f"https://api.binance.com/api/v3/ticker/24hr?symbol={coin}USDT"
-        headers = {"User-Agent": "Mozilla/5.0"}
-        data = requests.get(url, headers=headers).json()
-        if "lastPrice" not in data:
-            text += f"\n❌ {coin}: нет данных от Binance\n"
-            continue
-
-        price = data.get("lastPrice", "Нету данных")
-        change = float(data.get("priceChangePercent", 0))
-
-        if change > 0:
-            trend = "BULLISH 🟢"
-            signal = "BUY 📈"
-        else:
-            trend = "BEARISH 🔴"
-            signal = "SELL 📉"
-
-        text += f"""
-🚀 {coin}
-
-💰 Цена: ${price}
-📊 24ч: {change}%
-📈 Тренд: {trend}
-🔥 Сигнал: {signal}
-
-"""
-    await bot.send_message(CHANNEL_ID, text)
-    print("SEND TO CHANNEL OK")
-    await message.answer(text)
 
 @dp.message(Command("settings"))
 async def settings_handler(message: Message):
